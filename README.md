@@ -97,9 +97,9 @@ You can adjust pacing, visuals, and message styling from these files:
 | ----------------------------- | ---------------------------------------------------------------------------------------- |
 | **Prologue – The Newspaper**  | You are sent a  newspaper, a woman has been murdered in the university lake, a new cult is presumed guilty for teh act after the findings of a medival ritual taking place on the banks.|
 | **Chapter 1 – The Cult News** | You gain access to the cult news letter and read about the findings, something is wrong with the page though, could this lead deeper? |
-| **Chapter 2 – The Watcher**   | A new user joins the chat. The timestamps begin to drift. Someone is watching.           |
-| **Chapter 3 – The Red Room**  | The background darkens; messages become corrupted. The truth begins to surface.          |
-| **Ending – Disconnect**       | All users vanish from the chat. You’re prompted to “join” the final transmission.        |
+| **Chapter 2 – The Challenges**| You then find that someone is watching? Then you might have to shake them off your track. Complete the challenges to find the chat room.           |
+| **Chapter 3 – The Chat Room**  | The background darkens; messages become corrupted. The truth begins to surface. Maybe YOU are not who you seem...         |
+| **Ending – Disconnect**       | All users vanish from the chat. You’re prompted to “join” the final transmission. You are now a part of REVELATION 23.       |
 
 ---
 
