@@ -29,7 +29,7 @@ export default function Page() {
   const tickInterval = 100; // ms
   const barLength = 30; // total "=" signs
 
-  // Countdown effect
+  // Countdown timer
   useEffect(() => {
     if (!isActive) return;
 
@@ -54,7 +54,7 @@ export default function Page() {
     return () => clearInterval(timer);
   }, [isActive]);
 
-  // Animated "Redirecting..." dots
+  // "Redirecting..." animation
   useEffect(() => {
     if (!redirecting) return;
     const interval = setInterval(() => {
@@ -63,7 +63,7 @@ export default function Page() {
     return () => clearInterval(interval);
   }, [redirecting]);
 
-  // Input change handler
+  // Handle input change
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInput(value);
@@ -80,13 +80,12 @@ export default function Page() {
   const handleCommand = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-
       const trimmedInput = input.trim();
       const isCorrect =
         trimmedInput.toLowerCase() === correctCommand.toLowerCase();
 
       if (isCorrect) {
-        // Show success first
+        // Success
         setHistory((prev) => [
           ...prev,
           `C:\\> ${trimmedInput}`,
@@ -97,7 +96,7 @@ export default function Page() {
         setIsActive(false);
         setProgress(100);
 
-        // Start "Redirecting..." after short delay
+        // Start redirecting animation after delay
         setTimeout(() => {
           setRedirecting(true);
           setHistory((prev) => [...prev, "Redirecting"]);
@@ -110,24 +109,29 @@ export default function Page() {
               )
             );
           }, 2000);
-        }, 500); // 0.5s delay after success
+        }, 500);
       } else {
+        // Wrong command → immediate failure
         setError(true);
         setHistory((prev) => [
           ...prev,
           `C:\\> ${trimmedInput}`,
           `'${trimmedInput}' is not recognized as an internal or external command, operable program or batch file.`,
+          "",
+          ">>> TRACE COMPLETE: Connection compromised.",
+          ">>> System lockdown initiated.",
         ]);
         setInput("");
+        setIsActive(false);
+        setProgress(0);
       }
     }
   };
 
-  // Generate ASCII bar where green gradually turns gray
+  // Generate ASCII progress bar
   const filledLength = Math.floor((progress / 100) * barLength);
   const filled = "=".repeat(filledLength);
   const faded = "=".repeat(barLength - filledLength);
-
   const barDisplay = (
     <span>
       <span className="text-green-400">{filled}</span>
@@ -139,7 +143,7 @@ export default function Page() {
     <Suspense fallback={<div>Loading...</div>}>
       <div className="min-h-screen bg-[#0c0c0c] text-white flex flex-col items-center justify-center p-6 font-mono">
         <div className="w-full max-w-2xl bg-black border border-gray-600 rounded-md shadow-[0_0_20px_rgba(0,0,0,0.7)]">
-          {/* Title Bar */}
+          {/* Title bar */}
           <div className="flex items-center justify-between bg-[#1a1a1a] text-gray-300 px-3 py-1 text-xs">
             <span>RaSH</span>
             <div className="space-x-2">
@@ -171,7 +175,7 @@ export default function Page() {
               </p>
             ))}
 
-            {/* Input line */}
+            {/* Input */}
             {isActive && (
               <div className="flex items-center">
                 <span className="text-green-400">C:\&gt;&nbsp;</span>
@@ -191,7 +195,7 @@ export default function Page() {
               </div>
             )}
 
-            {/* ASCII Progress Bar */}
+            {/* Progress bar */}
             {isActive && (
               <div className="mt-3 text-gray-400">
                 <p>Time left...</p>

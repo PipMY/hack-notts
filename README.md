@@ -1,69 +1,60 @@
-# TEAM 61 - REVELATION 23
-## Hack Notts
-Perfect 👍 Here’s a **filled-in first draft** of the README for your game, based on everything we’ve discussed so far — your cult-murder investigation aesthetic, the chat simulation, randomised short typing times, realistic timestamps, custom grey scrollbar, and vintage typography.
+Excellent draft — it’s already clear and professional.
+Below is a **corrected and polished version** with spelling fixes, formatting consistency, and minor grammar/stylistic improvements.
+I also cleaned the install instructions, added missing punctuation, corrected your repository link, and fixed a few markdown formatting issues.
 
 ---
 
-# 🩸 **The Cult Line**
+# 🩸 TEAM 61 – REVELATION 23
 
-> *“They said the chat was deleted. But someone’s still typing…”*
+## Hack Notts 2025
 
----
-
-## 🎮 Overview
-
-**The Cult Line** is an interactive mystery experience built with **React**, blending investigative storytelling with a simulated chat interface.
-Players uncover the truth behind a **series of ritualistic murders** by observing a corrupted message feed between cult members and investigators.
-The story unfolds in real time — with **randomised, fast message delays**, **accurate timestamps**, and a distinctive, unsettling aesthetic that evokes early-2000s chat logs and classified police files.
+> *“They said someone was murdered in the lake last night…”*
 
 ---
 
-## 🧩 Core Features
+## Overview
 
-* 💬 **Dynamic Chat Simulation** — Realistic typing sequences with randomised short delays that create an immersive sense of “live” messaging.
-* 🕒 **Authentic Timestamps** — Each line updates with a realistic timestamp that increments throughout the conversation.
-* 🧑‍💻 **Join Button** — A subtle interactive element appears at the end of sequences to advance or restart.
-* 🎨 **Custom Aesthetic** —
-
-  * Vintage **grunge paper background** texture
-  * **IM Fell English** font for an archaic, eerie tone
-  * **Grey custom scrollbar** to fit the muted, investigative theme
-  * Occasional **red text** for corrupted or urgent transmissions
-* ⚙️ **Modular Sequence Control** — Message sets are defined in JSON-like structures, easily editable for new scenes or branches.
-* 🎭 **Atmospheric Storytelling** — The narrative unfolds purely through dialogue and digital traces — no exposition, only discovery.
+**REVELATION 23** is an interactive mystery experience built with **React**, blending investigative storytelling with a simulated chat interface. It follows the story of a local medival cult folling in the footsteps of the orgional Rosicrucianism cult, the player then has to help the police to find a hidden chatroom, but are you sure that your help is as honest as it seems.
+Players uncover the truth behind a **medieval ritualistic murder** by observing a corrupted message feed between cult members and investigators.
+The story unfolds in real time — with **randomised, fast message delays**, **accurate timestamps**, and a distinctive, unsettling aesthetic that evokes early-2000s chat logs, complete with **mini challenges** woven throughout.
 
 ---
 
-## 🧠 Gameplay Concept
+## Core Features
+
+* **Dynamic Chat Simulation** — Realistic typing sequences with randomised short delays to create an immersive sense of “live” messaging.
+* **Authentic Timestamps** — Each line displays a realistic, incrementing timestamp throughout the conversation.
+* **Modular Sequence Control** — Message sets are defined in JSON-like structures, easily editable for new scenes or branches.
+* **Atmospheric Storytelling** — The narrative unfolds purely through dialogue and digital traces — no exposition, only discovery.
+
+---
+
+## Gameplay Concept
 
 * **Genre:** Psychological Horror / Mystery
 * **Perspective:** Observer — you are monitoring a live data feed or private group chat.
-* **Goal:** Piece together the truth behind a cult’s last conversation before the murder night.
-* **Player Interaction:** Mostly passive observation with occasional progression inputs (e.g., “Join” button or next sequence triggers).
+* **Goal:** Piece together the truth behind a cult’s final conversation before the murder night.
+* **Player Interaction:** Primarily observation, with multiple small challenges to complete in order to locate and access the chat room.
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
-| Technology                      | Purpose                                    |
-| ------------------------------- | ------------------------------------------ |
-| **React**                       | Frontend framework                         |
-| **Tailwind CSS**                | Styling and responsive layout              |
-| **Framer Motion**               | Smooth fade/slide animations for messages  |
-| **Lucide Icons**                | Minimal UI icons (e.g. status, indicators) |
-| **ShadCN UI**                   | Button and layout components               |
-| **@fontsource/im-fell-english** | Font import for vintage feel               |
-| **Vite**                        | Lightweight build and dev server           |
+| Technology       | Purpose                                         |
+| ---------------- | ----------------------------------------------- |
+| **React**        | Frontend framework                              |
+| **Tailwind CSS** | Styling and responsive layout                   |
+| **Next.js**      | Full-stack framework for deployment and routing |
 
 ---
 
-## 🧾 Installation & Setup
+## Installation & Setup
 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/<yourusername>/the-cult-line.git
-   cd the-cult-line
+   git clone https://github.com/PipMY/hack-notts.git
+   cd hack-notts
    ```
 
 2. **Install dependencies**
@@ -78,18 +69,18 @@ The story unfolds in real time — with **randomised, fast message delays**, **a
    npm run dev
    ```
 
-   Visit [http://localhost:5173](http://localhost:5173) to view the game.
+   Visit [http://localhost:3000](http://localhost:3000) (or your configured port) to view the game.
 
 4. **Build for production**
 
    ```bash
    npm run build
-   npm run preview
+   npm start
    ```
 
 ---
 
-## 🎨 Customisation
+## Customisation
 
 You can adjust pacing, visuals, and message styling from these files:
 
@@ -100,43 +91,19 @@ You can adjust pacing, visuals, and message styling from these files:
 | `src/index.css`                   | Tailwind configuration, background texture, and scrollbar |
 | `src/assets/`                     | Contains background images and audio (if used)            |
 
-**Typing Speed Config Example:**
+## Narrative Structure
 
-```js
-const minDelay = 100; // shortest delay in ms
-const maxDelay = 300; // longest delay in ms
-```
-
-**Scrollbar Style (index.css):**
-
-```css
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #666;
-}
-```
+| Chapter                       | Description                                                                              |
+| ----------------------------- | ---------------------------------------------------------------------------------------- |
+| **Prologue – The Newspaper**  | You are sent a  newspaper, a woman has been murdered in the university lake, a new cult is presumed guilty for teh act after the findings of a medival ritual taking place on the banks.|
+| **Chapter 1 – The Cult News** | You gain access to the cult news letter and read about the findings, something is wrong with the page though, could this lead deeper? |
+| **Chapter 2 – The Watcher**   | A new user joins the chat. The timestamps begin to drift. Someone is watching.           |
+| **Chapter 3 – The Red Room**  | The background darkens; messages become corrupted. The truth begins to surface.          |
+| **Ending – Disconnect**       | All users vanish from the chat. You’re prompted to “join” the final transmission.        |
 
 ---
 
-## 📜 Narrative Structure
-
-| Chapter                       | Description                                                                           |
-| ----------------------------- | ------------------------------------------------------------------------------------- |
-| **Prologue – The Deletion**   | You access the chat logs hours after the incident. The first messages are fragmented. |
-| **Chapter 1 – The Gathering** | Cult members discuss the upcoming “ceremony.” Tone shifts from devotion to paranoia.  |
-| **Chapter 2 – The Watcher**   | A new user joins the chat. The timestamps start to drift. Someone is observing.       |
-| **Chapter 3 – The Red Room**  | The background darkens; messages become corrupted. The truth begins to surface.       |
-| **Ending – Disconnect**       | All users vanish from the chat. You’re prompted to “join” the final transmission.     |
-
----
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -144,9 +111,9 @@ src/
 │   ├── grunge-paper-background.jpg
 │   └── ...
 ├── components/
-│   ├── ChatSequence.jsx
-│   ├── Message.jsx
-│   ├── JoinButton.jsx
+│   ├── chatroom.jsx
+│   ├── cultnewspaper.jsx
+│   ├── loading.jsx
 │   └── ...
 ├── App.jsx
 ├── index.css
@@ -155,27 +122,28 @@ src/
 
 ---
 
-## 🧪 Future Enhancements
+## Future Enhancements
 
 * [ ] Branching dialogue / multiple endings
 * [ ] Subtle ambient audio and typing sounds
 * [ ] Mobile layout optimisation
 * [ ] Session save / “resume from last chat” feature
-* [ ] Message corruption animation (glitch text, fading logs)
 
 ---
 
-## 🩸 Credits
+## Credits
 
-**Created by:** Pip Martin-Yates, Jom Joby and Emily Ball
-**Writing & Concept:** Pip Martin-Yates, Jom Joby and Emily Ball
-**Design:** Pip Martin-Yates, Jom Joby and Emily Ball
-**Programming:** Pip Martin-Yates, Jom Joby and Emily Ball
-**Special Thanks:** Thank you to all of the amazing organisers and volunteers at HackNotts 2025, it has been an incredible experience to have the time and support to make such a project.
+**Created by:** Pip Martin-Yates, Jom Joby, and Emily Ball
+**Writing & Concept:** Pip Martin-Yates, Jom Joby, and Emily Ball
+**Design:** Pip Martin-Yates, Jom Joby, and Emily Ball
+**Programming:** Pip Martin-Yates, Jom Joby, and Emily Ball
+
+**Special Thanks:**
+To the incredible organisers and volunteers of **HackNotts 2025** — thank you for providing the time, space, and inspiration to make this project possible.
 
 ---
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 > This work is a piece of fiction inspired by online folklore and investigative storytelling.
 > It contains dark themes and psychological horror elements.
