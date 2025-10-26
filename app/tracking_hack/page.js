@@ -186,6 +186,7 @@ export default function Page() {
                   value={input}
                   onChange={handleInputChange}
                   onKeyDown={handleCommand}
+                  onPaste={e => e.preventDefault()}
                   autoFocus
                   spellCheck={false}
                   className={`bg-transparent outline-none flex-1 ${
