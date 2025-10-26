@@ -78,7 +78,11 @@ export default function Desktop() {
 
 		const handleNotificationClick = (noteObj, idx) => {
 			setShowDropdown(false);
-			if (noteObj.short === "New Nottingham Evening Post available!") {
+			// Check both short and full text for newspaper notification
+			const isNewspaper =
+				noteObj.short.includes("Nottingham Evening Post") ||
+				noteObj.full.includes("Nottingham Evening Post");
+			if (isNewspaper) {
 				setShowNewspaper(true);
 				if (!hasOpenedNewspaper) {
 					setHasOpenedNewspaper(true);
