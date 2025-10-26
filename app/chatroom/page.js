@@ -9,6 +9,7 @@ const ChatRoom = () => {
   const [glitchText, setGlitchText] = useState("");
 
   const chatEndRef = useRef(null); // 👈 Ref for auto-scrolling
+  const audioRef = useRef(null); // Ref for sound effect
 
   // Fictional Revelation 23 chat transcript
   const chatScript = [
@@ -100,6 +101,12 @@ const ChatRoom = () => {
         clearInterval(glitchInterval);
         setGlitchText(text);
 
+        // Play sound effect when text is fully revealed
+        if (audioRef.current) {
+          audioRef.current.currentTime = 0;
+          audioRef.current.play();
+        }
+
         setTimeout(() => {
           const blackout = document.createElement("div");
           blackout.style.position = "fixed";
@@ -139,6 +146,8 @@ const ChatRoom = () => {
   return (
     <div className="flex flex-col max-w-4xl mx-auto mt-8 p-4 bg-black text-red-400 font-mono rounded-2xl shadow-lg h-[600px] border border-gray-700">
       {scrollbarStyles}
+      {/* Hidden audio element for sound effect */}
+      <audio ref={audioRef} src="/audio/music-box.mp3" preload="auto" style={{ display: "none" }} />
       <div className="text-center text-gray-500 text-sm mb-2">
         — Revelation 23, Chatroom —
       </div>

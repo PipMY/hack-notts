@@ -13,7 +13,7 @@ export default function Home() {
   const [attempts, setAttempts] = useState(0);
   const [showHint, setShowHint] = useState(false);
   const router = useRouter();
-  // All hooks above, no early returns
+  // All hooks above, no early returns please dont fix me later I work i htink 
   useEffect(() => {
     if (loading) {
       const timer = setTimeout(() => {

@@ -58,7 +58,11 @@ export default function Loading() {
   }, [showMessage]);
 
   const handleContinue = () => {
-  window.location.href = "/castle";
+  const audio = new window.Audio("/audio/scary.mp3");
+  audio.play();
+  audio.onended = () => {
+    window.location.href = "/castle";
+  };
   };
 
   return (
