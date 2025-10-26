@@ -1,19 +1,28 @@
 "use client";
-import { useState } from "react";
-import Calculator from "../games/calculator";
+import React, { useState } from "react";
+import Calculator from "../utilities/calculator";
+import dynamic from "next/dynamic";
+const Portal = dynamic(() => import("../utilities/portal"), { ssr: false });
 
 export default function Desktop() {
 		const [notifications, setNotifications] = useState([
 			"Welcome to your desktop!",
 			"You have 2 new messages.",
 			"System update available.",
-			"Meeting at 3pm."
+			"Meeting at 3pm.",
+			"New Nottingham Evening Post available!"
 		]);
 	const [showDropdown, setShowDropdown] = useState(false);
 		const [activeNotification, setActiveNotification] = useState(null);
 		const [activeNotificationIdx, setActiveNotificationIdx] = useState(null);
 	// File structure for dropdown
-	const [fileTree] = useState([
+	const [hasOpenedNewspaper, setHasOpenedNewspaper] = useState(() => {
+		if (typeof window !== "undefined") {
+			return localStorage.getItem("portalAvailable") === "true";
+		}
+		return false;
+	});
+	const [fileTree, setFileTree] = useState([
 		{
 			name: "My Documents",
 			children: ["Resume.doc", "Budget.xls", "Notes.txt"],
@@ -24,12 +33,18 @@ export default function Desktop() {
 		},
 		{
 			name: "Games",
-			children: ["Minesweeper.exe", "Solitaire.exe", "Finance-Calculator.xlsx"],
+			children: ["Minesweeper.exe", "Solitaire.exe"],
+		},
+		{
+			name: "Utilities",
+			children: ["Finance-Calculator.xlsx"],
 		}
 	]);
 	const [openFolders, setOpenFolders] = useState({});
 	const [showReadme, setShowReadme] = useState(false);
 	const [showCalculator, setShowCalculator] = useState(false);
+	const [showNewspaper, setShowNewspaper] = useState(false);
+	const [showPortal, setShowPortal] = useState(false);
 
 	const toggleFolder = (folder) => {
 		setOpenFolders((prev) => ({
@@ -41,23 +56,53 @@ export default function Desktop() {
 		const handleFileClick = (folder, file) => {
 			if (file === "README.txt") {
 				setShowReadme(true);
-			} else if (file === "Finance-Calculator.xlsx" || file === "Finance-Calculator.xlsx") {
+			} else if (file === "Finance-Calculator.xlsx") {
 				setShowCalculator(true);
+			} else if (file === "portal.exe") {
+				setShowPortal(true);
 			}
 		};
 
 		const handleNotificationClick = (note, idx) => {
-			setActiveNotification(note);
-			setActiveNotificationIdx(idx);
 			setShowDropdown(false);
+			if (note === "New Nottingham Evening Post available!") {
+				setShowNewspaper(true);
+				if (!hasOpenedNewspaper) {
+					setHasOpenedNewspaper(true);
+					setFileTree((prev) => prev.map(folder =>
+						folder.name === "Utilities"
+							? { ...folder, children: [...folder.children, "portal.exe"] }
+							: folder
+					));
+					if (typeof window !== "undefined") {
+						localStorage.setItem("portalAvailable", "true");
+					}
+				}
+			} else {
+				setActiveNotification(note);
+				setActiveNotificationIdx(idx);
+			}
 		};
 
+	// Ensure portal.exe stays available after reload
+	React.useEffect(() => {
+		if (hasOpenedNewspaper) {
+			setFileTree((prev) => prev.map(folder =>
+				folder.name === "Utilities" && !folder.children.includes("portal.exe")
+					? { ...folder, children: [...folder.children, "portal.exe"] }
+					: folder
+			));
+		}
+	}, [hasOpenedNewspaper]);
+
 		const handleCloseNotification = () => {
-			if (activeNotificationIdx !== null) {
+			// Only delete notification if it's not the newspaper one
+			if (activeNotificationIdx !== null && activeNotification !== "New Nottingham Evening Post available!") {
 				setNotifications((prev) => prev.filter((_, i) => i !== activeNotificationIdx));
 			}
 			setActiveNotification(null);
 			setActiveNotificationIdx(null);
+			setShowNewspaper(false);
 		};
 
 	return (
@@ -114,7 +159,7 @@ export default function Desktop() {
 										aria-label="Close"
 									>✖</button>
 								</div>
-											<div className="p-4 text-black font-mono text-sm bg-white min-h-[120px] max-h-[260px] overflow-auto break-words whitespace-pre-line">
+											<div className="p-4 text-black font-mono text-sm bg-white min-h-[120px] max-h-[260px] overflow-auto wrap-break-word whitespace-pre-line">
 												Welcome to your desktop!
 
 												This is a sample README file. This text will wrap inside the window and stay readable even if it is very long. You can add more information here and it will not overflow outside the window.
@@ -179,21 +224,48 @@ export default function Desktop() {
 										)}
 
 										{/* Calculator window */}
-							{showCalculator && (
-								<div className="absolute top-32 left-1/2 -translate-x-1/2 w-[340px] bg-[#F8F8F8] border-2 border-gray-700 shadow-[4px_4px_0_#888] z-50">
-									<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-[1rem] border-b-2 border-gray-700 flex justify-between items-center">
-										Finance-Calculator.xlsx
-										<button
-											className="ml-2 px-2 py-0.5 bg-white border border-gray-700 rounded cursor-pointer hover:bg-gray-300"
-											onClick={() => setShowCalculator(false)}
-											aria-label="Close"
-										>✖</button>
+								{showCalculator && (
+									<div className="absolute top-32 left-1/2 -translate-x-1/2 w-[340px] bg-[#F8F8F8] border-2 border-gray-700 shadow-[4px_4px_0_#888] z-50">
+										<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-[1rem] border-b-2 border-gray-700 flex justify-between items-center">
+											Finance-Calculator.xlsx
+											<button
+												className="ml-2 px-2 py-0.5 bg-white border border-gray-700 rounded cursor-pointer hover:bg-gray-300"
+												onClick={() => setShowCalculator(false)}
+												aria-label="Close"
+											>✖</button>
+										</div>
+										<div className="p-4 bg-white">
+											<Calculator />
+										</div>
 									</div>
-									<div className="p-4 bg-white">
-										<Calculator />
-									</div>
-								</div>
-							)}
+								)}
+
+										{/* Newspaper window fullscreen except taskbar */}
+										{showNewspaper && (
+											<div className="fixed top-0 left-0 w-full h-[calc(100vh-2.75rem)] bg-[#F8F8F8] border-2 border-gray-700 shadow-[4px_4px_0_#888] z-50 flex flex-col">
+												<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-[1.2rem] border-b-2 border-gray-700 flex justify-between items-center">
+													Nottingham Evening Post
+													<button
+														className="ml-2 px-2 py-0.5 bg-white border border-gray-700 rounded cursor-pointer hover:bg-gray-300"
+														onClick={() => setShowNewspaper(false)}
+														aria-label="Close"
+													>✖</button>
+												</div>
+												<div className="flex-1 bg-white">
+													{/* Newspaper content from newspaper route */}
+													<iframe
+														src="/newspaper"
+														title="Nottingham Evening Post"
+														className="w-full h-full border-none bg-white"
+													/>
+												</div>
+											</div>
+										)}
+
+										{/* Portal window as a desktop app window */}
+										{showPortal && (
+											<Portal onClose={() => setShowPortal(false)} />
+										)}
 			</div>
 		);
 	}
