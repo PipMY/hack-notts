@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Calculator from "../games/calculator";
 
 export default function Desktop() {
 		const [notifications, setNotifications] = useState([
@@ -23,11 +24,12 @@ export default function Desktop() {
 		},
 		{
 			name: "Games",
-			children: ["Minesweeper.exe", "Solitaire.exe"],
+			children: ["Minesweeper.exe", "Solitaire.exe", "Finance-Calculator.xlsx"],
 		}
 	]);
 	const [openFolders, setOpenFolders] = useState({});
 	const [showReadme, setShowReadme] = useState(false);
+	const [showCalculator, setShowCalculator] = useState(false);
 
 	const toggleFolder = (folder) => {
 		setOpenFolders((prev) => ({
@@ -39,6 +41,8 @@ export default function Desktop() {
 		const handleFileClick = (folder, file) => {
 			if (file === "README.txt") {
 				setShowReadme(true);
+			} else if (file === "Finance-Calculator.xlsx" || file === "Finance-Calculator.xlsx") {
+				setShowCalculator(true);
 			}
 		};
 
@@ -86,7 +90,8 @@ export default function Desktop() {
 														{folder.children.map((file, fidx) => (
 															<li
 																key={fidx}
-																className="text-gray-700 bg-white border border-gray-300 px-2 py-1 mb-1 rounded shadow-inner font-mono text-sm"
+																className="text-gray-700 bg-white border border-gray-300 px-2 py-1 mb-1 rounded shadow-inner font-mono text-sm cursor-pointer hover:bg-gray-200"
+																onClick={() => handleFileClick(folder.name, file)}
 															>
 																{file}
 															</li>
@@ -172,6 +177,23 @@ export default function Desktop() {
 												</div>
 											</div>
 										)}
+
+										{/* Calculator window */}
+							{showCalculator && (
+								<div className="absolute top-32 left-1/2 -translate-x-1/2 w-[340px] bg-[#F8F8F8] border-2 border-gray-700 shadow-[4px_4px_0_#888] z-50">
+									<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-[1rem] border-b-2 border-gray-700 flex justify-between items-center">
+										Finance-Calculator.xlsx
+										<button
+											className="ml-2 px-2 py-0.5 bg-white border border-gray-700 rounded cursor-pointer hover:bg-gray-300"
+											onClick={() => setShowCalculator(false)}
+											aria-label="Close"
+										>✖</button>
+									</div>
+									<div className="p-4 bg-white">
+										<Calculator />
+									</div>
+								</div>
+							)}
 			</div>
 		);
 	}

@@ -99,16 +99,36 @@ export default function Home() {
       </div>
     );
   } else if (accessGranted) {
+    // Desktop screen with file explorer
     content = (
       <div className={`min-h-screen flex items-center justify-center bg-[#E0E0E0] font-mono transition-opacity duration-700 ${fade ? "opacity-0" : "opacity-100"}`}>
         <div className="border-2 border-gray-700 shadow-[4px_4px_0_#888] bg-[#F8F8F8] min-w-[340px] max-w-[360px] animate-fade-in">
           <div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold font-mono text-[1.1rem] border-b-2 border-gray-700 tracking-wide flex items-center gap-2">
             <span className="bg-white border border-gray-700 px-2 py-1 rounded shadow">✔</span>
-            Access Granted
+            Revelation OS Desktop
           </div>
-          <div className="py-8 px-6 text-center text-black font-mono text-lg">
-            Welcome!<br />
-            You will be redirected to your desktop shortly...
+          <div className="py-8 px-6 text-left text-black font-mono text-lg">
+            <div className="mb-4 font-bold text-base">Documents</div>
+            <ul className="space-y-2">
+              <li>
+                <button
+                  className="w-full text-left px-3 py-2 bg-gray-100 border border-gray-400 rounded hover:bg-gray-200 cursor-pointer"
+                  onClick={() => router.push("/games/calculator")}
+                >🧮 Calculator</button>
+              </li>
+              <li>
+                <button
+                  className="w-full text-left px-3 py-2 bg-gray-100 border border-gray-400 rounded hover:bg-gray-200 cursor-pointer"
+                  onClick={() => router.push("/chatroom")}
+                >💬 Chatroom</button>
+              </li>
+              <li>
+                <button
+                  className="w-full text-left px-3 py-2 bg-gray-100 border border-gray-400 rounded hover:bg-gray-200 cursor-pointer"
+                  onClick={() => router.push("/newspaper")}
+                >📰 Newspaper</button>
+              </li>
+            </ul>
           </div>
           <div className="bg-[#A0A0A0] text-black py-1 px-4 border-t-2 border-gray-700 text-right text-xs">Windows ME Theme</div>
         </div>
