@@ -1,14 +1,48 @@
 "use client";
-
-"use client";
-import "@fontsource/im-fell-english"; // Regular
-import "@fontsource/im-fell-english/400-italic.css"; // Italic
-import React from "react";
+import "@fontsource/im-fell-english";
+import "@fontsource/im-fell-english/400-italic.css";
+import React, { useEffect, useState } from "react";
 
 const Newsletter = () => {
+  const [chaosText, setChaosText] = useState("chaos");
+
+  useEffect(() => {
+    const original = "chaos";
+
+    const scrambleWord = (word) => {
+      const chars = word.split("");
+      for (let i = chars.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [chars[i], chars[j]] = [chars[j], chars[i]];
+      }
+      return chars.join("");
+    };
+
+    let scrambleTimeout;
+
+    const startScramble = () => {
+      let scrambleCount = 0;
+      const scrambleInterval = setInterval(() => {
+        if (scrambleCount < 10) {
+          setChaosText(scrambleWord(original));
+          scrambleCount++;
+        } else {
+          clearInterval(scrambleInterval);
+          setChaosText(original);
+
+          // random delay between 2 and 8 seconds before next scramble
+          const nextDelay = Math.random() * 6000 + 2000;
+          scrambleTimeout = setTimeout(startScramble, nextDelay);
+        }
+      }, 80); // how fast letters shuffle each frame
+    };
+
+    startScramble();
+    return () => clearTimeout(scrambleTimeout);
+  }, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#1a1209] bg-[url('/dark-texture-bg.jpg')] bg-cover bg-center p-10">
-      {/* Font styling */}
       <style jsx>{`
         .font-fell {
           font-family: "IM Fell English", serif;
@@ -25,9 +59,7 @@ const Newsletter = () => {
         }
       `}</style>
 
-      {/* Centered parchment page */}
       <div className="relative w-full max-w-3xl bg-[url('/grunge-paper-background.jpg')] bg-cover bg-center shadow-2xl border-8 border-[#d4b886] rounded-lg p-12">
-        {/* Slight inner parchment texture overlay for depth */}
         <div className="absolute inset-0 bg-[#fdf4e3]/70 mix-blend-overlay rounded-lg pointer-events-none"></div>
 
         <div className="relative z-10">
@@ -36,7 +68,7 @@ const Newsletter = () => {
           </h1>
 
           <h2 className="font-cloister text-2xl text-center text-[#3b2602] mb-8 italic">
-            Issue VII · For Those Who See
+            Issue 07 · For Those Who See
           </h2>
 
           <div className="font-fell text-[#1c1307] leading-relaxed">
@@ -52,9 +84,15 @@ const Newsletter = () => {
             <p className="text-lg mb-6">
               You read in the papers how strangers gathered and whispered about
               “witches,” how a lake stilled under moonlight, how the town’s
-              compass wavered. They call it chaos (keyword, glitches in and
-              out). We call it revelation. Our message is spreading. The press
-              writes what it can; we read what it means.
+              compass wavered. They call it{" "}
+              <span
+                className="inline-block transition-all duration-100 ease-in-out"
+                style={{ minWidth: "3.5ch" }} // prevents layout jump
+              >
+                {chaosText}
+              </span>{" "}
+              . We call it revelation. Our message is spreading. The press writes
+              what it can; we read what it means.
             </p>
 
             <p className="text-lg mb-6">
