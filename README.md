@@ -1,10 +1,4 @@
-Excellent draft — it’s already clear and professional.
-Below is a **corrected and polished version** with spelling fixes, formatting consistency, and minor grammar/stylistic improvements.
-I also cleaned the install instructions, added missing punctuation, corrected your repository link, and fixed a few markdown formatting issues.
-
----
-
-# 🩸 TEAM 61 – REVELATION 23
+# TEAM 61 – REVELATION 23
 
 ## Hack Notts 2025
 
