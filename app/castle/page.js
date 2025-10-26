@@ -27,16 +27,21 @@ export default function CastlePage() {
 	const castleIndex = parseInt(toggles.join(""), 2);
 	const imageSrc = `/castles/castle${castleIndex}.png`;
 
-	// Toggle button handler
+	// Play click sound effect
+	const playClickSound = () => {
+		const audio = new window.Audio('/audio/click.mp3');
+		audio.play();
+	};
+
+	// Toggle button handler with sound
 	const handleToggle = (idx) => {
+		playClickSound();
 		setToggles((prev) => {
 			const next = [...prev];
 			next[idx] = next[idx] === 0 ? 1 : 0;
 			return next;
 		});
 	};
-
-	// ...existing code...
 
 	// Binary string value
 	const binaryValue = toggles.join("");

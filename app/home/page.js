@@ -5,13 +5,20 @@ import dynamic from "next/dynamic";
 const Portal = dynamic(() => import("../utilities/portal"), { ssr: false });
 
 export default function Desktop() {
-		const [notifications, setNotifications] = useState([
-			"Welcome to your desktop!",
-			"You have 2 new messages.",
-			"System update available.",
-			"Meeting at 3pm.",
-			"New Nottingham Evening Post available!"
-		]);
+				const notificationData = [
+					"Emily - Oh my days did you hear about the girl who drowned on campus",
+					"Jack - I bet your weird medieval mind killed that girl cus she was a witch",
+					"UoN - We know people are distressed about what happened on campus yesterday but we are assuring all student campus security are finding who is responsible and making sure all our students are safe.",
+					"New Nottingham Evening Post available!",
+					"System update available."
+				];
+
+				const [notifications, setNotifications] = useState(
+					notificationData.map(full => ({
+						short: full.length > 30 ? full.slice(0, 30) + "..." : full,
+						full
+					}))
+				);
 	const [showDropdown, setShowDropdown] = useState(false);
 		const [activeNotification, setActiveNotification] = useState(null);
 		const [activeNotificationIdx, setActiveNotificationIdx] = useState(null);
@@ -29,7 +36,7 @@ export default function Desktop() {
 		},
 		{
 			name: "Photos",
-			children: ["Vacation.jpg", "Family.png"],
+			children: ["Vacation.jpg", "evidence.png", "cult.jpg"],
 		},
 		{
 			name: "Games",
@@ -45,6 +52,8 @@ export default function Desktop() {
 	const [showCalculator, setShowCalculator] = useState(false);
 	const [showNewspaper, setShowNewspaper] = useState(false);
 	const [showPortal, setShowPortal] = useState(false);
+	const [showEvidence, setShowEvidence] = useState(false);
+	const [showCult, setShowCult] = useState(false);
 
 	const toggleFolder = (folder) => {
 		setOpenFolders((prev) => ({
@@ -60,12 +69,16 @@ export default function Desktop() {
 				setShowCalculator(true);
 			} else if (file === "portal.exe") {
 				setShowPortal(true);
+			} else if (file === "evidence.png") {
+				setShowEvidence(true);
+			} else if (file === "cult.jpg") {
+				setShowCult(true);
 			}
 		};
 
-		const handleNotificationClick = (note, idx) => {
+		const handleNotificationClick = (noteObj, idx) => {
 			setShowDropdown(false);
-			if (note === "New Nottingham Evening Post available!") {
+			if (noteObj.short === "New Nottingham Evening Post available!") {
 				setShowNewspaper(true);
 				if (!hasOpenedNewspaper) {
 					setHasOpenedNewspaper(true);
@@ -79,7 +92,7 @@ export default function Desktop() {
 					}
 				}
 			} else {
-				setActiveNotification(note);
+				setActiveNotification(noteObj.full);
 				setActiveNotificationIdx(idx);
 			}
 		};
@@ -97,7 +110,7 @@ export default function Desktop() {
 
 		const handleCloseNotification = () => {
 			// Only delete notification if it's not the newspaper one
-			if (activeNotificationIdx !== null && activeNotification !== "New Nottingham Evening Post available!") {
+			if (activeNotificationIdx !== null && notifications[activeNotificationIdx]?.short !== "New Nottingham Evening Post available!") {
 				setNotifications((prev) => prev.filter((_, i) => i !== activeNotificationIdx));
 			}
 			setActiveNotification(null);
@@ -161,12 +174,19 @@ export default function Desktop() {
 								</div>
 											<div className="p-4 text-black font-mono text-sm bg-white min-h-[120px] max-h-[260px] overflow-auto wrap-break-word whitespace-pre-line">
 												Welcome to your desktop!
-
-												This is a sample README file. This text will wrap inside the window and stay readable even if it is very long. You can add more information here and it will not overflow outside the window.
-
-												- Click folders to expand
-												- Click README.txt to open this window
-												- Click ✖ to close
+												<br></br>
+												<br></br>
+												1. Click on notification from Nottingham Evening Post.<br></br>
+												2. To help police with investigation go to files on desktop and open the dark web portal.<br></br>
+												3. Here you can find a favourite tab for cultist news letter.<br></br>
+												4. When you read it you find there is a way for you to find the cult chatroom.<br></br>
+												5. To do this you must find the suspicious link in the cultist new letter.<br></br>
+												6. Once you have clicked on it you will enter a loading screen.<br></br>
+												7. But it appears you are being tracked and won't be able to continue further until you have dealt with your unwanted guest.<br></br>
+												8. Once you complete the task you will finally be moved onto the next task.<br></br>
+												9. Here you will need to click on the castle lights and find the right pattern to be allowed to enter the cultist chatroom.<br></br>
+												10. Once you have completed that task you will be granted passage into the castle where the chatroom is.<br></br>
+												11. You receive a message saying you have been acknowledged for you efforts and been granted a place at the cult.<br></br>
 											</div>
 							</div>
 						)}
@@ -177,32 +197,32 @@ export default function Desktop() {
 										<div className="bg-[#A0A0A0] text-black px-3 py-1 rounded shadow border border-gray-700 cursor-pointer hover:bg-gray-300">Start</div>
 									</div>
 									<div className="flex items-center gap-2 relative">
-													<div
-														className="bg-white text-black border border-gray-700 px-2 py-1 rounded text-xs shadow cursor-pointer hover:bg-gray-200"
-														onClick={() => setShowDropdown((prev) => !prev)}
-													>
-														You have {notifications.length} notification{notifications.length !== 1 ? "s" : ""}
-													</div>
-													{showDropdown && (
-														<div className="absolute bottom-12 right-0 w-64 bg-[#F8F8F8] border-2 border-gray-700 shadow-lg rounded z-50">
-															<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-sm border-b-2 border-gray-700">Notifications</div>
-															<ul className="py-2 px-2">
-																{notifications.length === 0 ? (
-																	<li className="text-gray-500 px-2 py-1">No notifications</li>
-																) : (
-																	notifications.map((note, idx) => (
-																		<li
-																			key={idx}
-																			className="text-black bg-white border border-gray-300 px-2 py-1 mb-1 rounded shadow-inner font-mono text-xs cursor-pointer hover:bg-gray-200"
-																			onClick={() => handleNotificationClick(note, idx)}
-																		>
-																			{note}
-																		</li>
-																	))
-																)}
-															</ul>
-														</div>
+										<div
+											className="bg-white text-black border border-gray-700 px-2 py-1 rounded text-xs shadow cursor-pointer hover:bg-gray-200"
+											onClick={() => setShowDropdown((prev) => !prev)}
+										>
+											You have {notifications.length} notification{notifications.length !== 1 ? "s" : ""}
+										</div>
+										{showDropdown && (
+											<div className="absolute bottom-12 right-0 w-64 bg-[#F8F8F8] border-2 border-gray-700 shadow-lg rounded z-50">
+												<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-sm border-b-2 border-gray-700">Notifications</div>
+												<ul className="py-2 px-2">
+													{notifications.length === 0 ? (
+														<li className="text-gray-500 px-2 py-1">No notifications</li>
+													) : (
+														notifications.map((noteObj, idx) => (
+															<li
+																key={idx}
+																className="text-black bg-white border border-gray-300 px-2 py-1 mb-1 rounded shadow-inner font-mono text-xs cursor-pointer hover:bg-gray-200"
+																onClick={() => handleNotificationClick(noteObj, idx)}
+															>
+																{noteObj.short}
+															</li>
+														))
 													)}
+												</ul>
+											</div>
+										)}
 									</div>
 								</div>
 
@@ -224,21 +244,63 @@ export default function Desktop() {
 										)}
 
 										{/* Calculator window */}
-								{showCalculator && (
-									<div className="absolute top-32 left-1/2 -translate-x-1/2 w-[340px] bg-[#F8F8F8] border-2 border-gray-700 shadow-[4px_4px_0_#888] z-50">
-										<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-[1rem] border-b-2 border-gray-700 flex justify-between items-center">
-											Finance-Calculator.xlsx
-											<button
-												className="ml-2 px-2 py-0.5 bg-white border border-gray-700 rounded cursor-pointer hover:bg-gray-300"
-												onClick={() => setShowCalculator(false)}
-												aria-label="Close"
-											>✖</button>
-										</div>
-										<div className="p-4 bg-white">
-											<Calculator />
-										</div>
-									</div>
-								)}
+										{showCalculator && (
+											<div className="absolute top-32 left-1/2 -translate-x-1/2 w-[340px] bg-[#F8F8F8] border-2 border-gray-700 shadow-[4px_4px_0_#888] z-50">
+												<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-[1rem] border-b-2 border-gray-700 flex justify-between items-center">
+													Finance-Calculator.xlsx
+													<button
+														className="ml-2 px-2 py-0.5 bg-white border border-gray-700 rounded cursor-pointer hover:bg-gray-300"
+														onClick={() => setShowCalculator(false)}
+														aria-label="Close"
+													>✖</button>
+												</div>
+												<div className="p-4 bg-white">
+													<Calculator />
+												</div>
+											</div>
+										)}
+
+										{/* Evidence image window styled like OS */}
+										{showEvidence && (
+											<div className="absolute top-32 left-1/2 -translate-x-1/2 w-[600px] bg-[#F8F8F8] border-2 border-gray-700 shadow-[4px_4px_0_#888] z-50">
+												<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-[1rem] border-b-2 border-gray-700 flex justify-between items-center">
+													evidence.png
+													<button
+														className="ml-2 px-2 py-0.5 bg-white border border-gray-700 rounded cursor-pointer hover:bg-gray-300"
+														onClick={() => setShowEvidence(false)}
+														aria-label="Close"
+													>✖</button>
+												</div>
+												<div className="p-2 bg-white flex items-center justify-center" style={{height: '70vh'}}>
+													<img
+														src="/photos/evidence.jpg"
+														alt="Evidence"
+														className="object-contain max-h-full max-w-full rounded shadow-lg border-4 border-gray-700"
+													/>
+												</div>
+											</div>
+										)}
+
+										{/* Cult image window styled like OS */}
+										{showCult && (
+											<div className="absolute top-36 left-1/2 -translate-x-1/2 w-[600px] bg-[#F8F8F8] border-2 border-gray-700 shadow-[4px_4px_0_#888] z-50">
+												<div className="bg-[#A0A0A0] text-black py-2 px-4 font-bold text-[1rem] border-b-2 border-gray-700 flex justify-between items-center">
+													cult.jpg
+													<button
+														className="ml-2 px-2 py-0.5 bg-white border border-gray-700 rounded cursor-pointer hover:bg-gray-300"
+														onClick={() => setShowCult(false)}
+														aria-label="Close"
+													>✖</button>
+												</div>
+												<div className="p-2 bg-white flex items-center justify-center" style={{height: '70vh'}}>
+													<img
+														src="/photos/cult.jpg"
+														alt="Cult"
+														className="object-contain max-h-full max-w-full rounded shadow-lg border-4 border-gray-700"
+													/>
+												</div>
+											</div>
+										)}
 
 										{/* Newspaper window fullscreen except taskbar */}
 										{showNewspaper && (
