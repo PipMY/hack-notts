@@ -88,7 +88,7 @@ export default function Page() {
         // Success
         setHistory((prev) => [
           ...prev,
-          `C:\\> ${trimmedInput}`,
+          `C:\> ${trimmedInput}`,
           ">>> Course realigned. The observer signal has been severed.",
         ]);
         setInput("");
@@ -108,6 +108,8 @@ export default function Page() {
                 line === "Redirecting" ? `Redirecting${dots}` : line
               )
             );
+            // Redirect to /loading_complete after redirecting animation
+            window.location.href = "/loading_completed";
           }, 2000);
         }, 500);
       } else {

@@ -37,8 +37,8 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let validPassword = "Mithras";
-    if (password === validPassword) {
+      let validPassword = "Mithras";
+      if (password.toLowerCase() === validPassword.toLowerCase()) {
       setLoading(true);
     } else {
       setAttempts((prev) => prev + 1);
