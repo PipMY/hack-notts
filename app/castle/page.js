@@ -1,19 +1,26 @@
 "use client"
 import { useState } from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CastlePage() {
+	// ...existing code...
+	const mainRef = useRef(null);
+	const [isFading, setIsFading] = useState(false);
+	const router = useRouter();
 
 	// ...existing code...
 
 	// Four toggle buttons state: [0,1,0,0] etc
-	const [toggles, setToggles] = useState([0, 0, 0, 0]);
+	const [toggles, setToggles] = useState([1, 0, 0, 0]);
 
 	// Button positions and sizes config (edit here)
 	const buttonConfigs = [
-		{ top: "20%", left: "10%", width: "20vw", height: "10vh" },
-		{ top: "35%", left: "10%", width: "20vw", height: "10vh" },
-		{ top: "50%", left: "10%", width: "20vw", height: "10vh" },
-		{ top: "65%", left: "10%", width: "20vw", height: "10vh" },
+		{ top: "68%", left: "35%", width: "1vw", height: "5vh" },
+		{ top: "64%", left: "45%", width: "2.3vw", height: "6vh" },
+		{ top: "53.5%", left: "58.3%", width: "2vw", height: "7vh" },
+		{ top: "65%", left: "58.3%", width: "2vw", height: "7vh" },
 	];
 
 	// Integer value from binary toggles
@@ -34,8 +41,28 @@ export default function CastlePage() {
 	// Binary string value
 	const binaryValue = toggles.join("");
 
+	// Navigate to /chatroom if binaryValue is '1011'
+	useEffect(() => {
+		if (binaryValue === "1011" && !isFading) {
+			setIsFading(true);
+			setTimeout(() => {
+				router.push("/chatroom");
+			}, 700); // 700ms fade duration
+		}
+	}, [binaryValue, router, isFading]);
+
 	return (
-		   <main style={{ position: "relative", width: "100vw", height: "100vh", overflow: "hidden" }}>
+		   <main
+			   ref={mainRef}
+			   style={{
+				   position: "relative",
+				   width: "100vw",
+				   height: "100vh",
+				   overflow: "hidden",
+				   transition: "opacity 0.7s",
+				   opacity: isFading ? 0 : 1
+			   }}
+		   >
 			   <img
 				   src={imageSrc}
 				   alt={`Castle ${castleIndex}`}
@@ -60,7 +87,7 @@ export default function CastlePage() {
 						   left: cfg.left,
 						   width: cfg.width,
 						   height: cfg.height,
-						   opacity: 1,
+						   opacity: 0,
 						   cursor: "pointer",
 						   zIndex: 2,
 						   border: toggles[idx] ? "2px solid #00f" : "2px solid #888",
