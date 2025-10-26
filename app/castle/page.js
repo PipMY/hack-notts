@@ -101,18 +101,6 @@ export default function CastlePage() {
 			   ))}
 			   {/* ...existing code... */}
 			   {/* Show binary value */}
-			   <div style={{
-				   position: "absolute",
-				   bottom: "2rem",
-				   left: "50%",
-				   transform: "translateX(-50%)",
-				   fontSize: "2rem",
-				   color: "white",
-				   textShadow: "0 0 8px #000",
-				   zIndex: 4
-			   }}>
-				   {binaryValue}
-			   </div>
 		   </main>
 	);
 }

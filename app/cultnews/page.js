@@ -2,9 +2,13 @@
 import "@fontsource/im-fell-english";
 import "@fontsource/im-fell-english/400-italic.css";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 
 const Newsletter = () => {
   const [chaosText, setChaosText] = useState("chaos");
+  const [isLoaded, setIsLoaded] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const original = "chaos";
@@ -38,11 +42,31 @@ const Newsletter = () => {
     };
 
     startScramble();
-    return () => clearTimeout(scrambleTimeout);
+
+    // Wait for font and background image to load before showing page
+    const fontPromise = document.fonts ? document.fonts.ready : Promise.resolve();
+    const imgPromise = new Promise((resolve) => {
+      const img = new window.Image();
+      img.src = '/dark-texture-bg.jpg';
+      if (img.complete) {
+        resolve();
+      } else {
+        img.onload = resolve;
+        img.onerror = resolve; // resolve anyway if error
+      }
+    });
+
+    Promise.all([fontPromise, imgPromise]).then(() => {
+      setIsLoaded(true);
+    });
+
+    return () => {
+      clearTimeout(scrambleTimeout);
+    };
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1a1209] bg-[url('/dark-texture-bg.jpg')] bg-cover bg-center p-10">
+    <div className="min-h-screen flex items-center justify-center bg-[url('/wood.jpg')] bg-cover bg-center p-10">
       <style jsx>{`
         .font-fell {
           font-family: "IM Fell English", serif;
@@ -57,9 +81,16 @@ const Newsletter = () => {
         .font-cloister {
           font-family: "Cloister Black", serif;
         }
+        .fade-in {
+          opacity: 0;
+          transition: opacity 1s ease;
+        }
+        .fade-in.loaded {
+          opacity: 1;
+        }
       `}</style>
 
-      <div className="relative w-full max-w-3xl bg-[url('/grunge-paper-background.jpg')] bg-cover bg-center shadow-2xl border-8 border-[#d4b886] rounded-lg p-12">
+      <div className={`fade-in${isLoaded ? ' loaded' : ''} relative w-full max-w-3xl bg-[url('/grunge-paper-background.jpg')] bg-cover bg-center shadow-2xl border-8 border-[#d4b886] rounded-lg p-12`}>
         <div className="absolute inset-0 bg-[#fdf4e3]/70 mix-blend-overlay rounded-lg pointer-events-none"></div>
 
         <div className="relative z-10">
@@ -68,7 +99,7 @@ const Newsletter = () => {
           </h1>
 
           <h2 className="font-cloister text-2xl text-center text-[#3b2602] mb-8 italic">
-            Issue 07 · For Those Who See
+            Issue XII · For Those Who See
           </h2>
 
           <div className="font-fell text-[#1c1307] leading-relaxed">
@@ -86,8 +117,10 @@ const Newsletter = () => {
               “witches,” how a lake stilled under moonlight, how the town’s
               compass wavered. They call it{" "}
               <span
-                className="inline-block transition-all duration-100 ease-in-out"
+                className="inline-block transition-all duration-100 ease-in-out cursor-pointer"
                 style={{ minWidth: "3.5ch" }} // prevents layout jump
+                onClick={() => router.push('/loading')}
+                title="Reveal chaos"
               >
                 {chaosText}
               </span>{" "}

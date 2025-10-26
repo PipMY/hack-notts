@@ -69,8 +69,7 @@ export default function Loading() {
   }, [showMessage]);
 
   const handleResolve = () => {
-    setShowMessage(false);
-    setProgress(100);
+    window.location.href = "/tracking_hack";
   };
 
   return (
@@ -99,7 +98,7 @@ export default function Loading() {
           {glitchDone && (
             <button
               onClick={handleResolve}
-              className="mt-6 bg-gray-600 px-5 py-2 rounded hover:bg-gray-700 opacity-0 animate-slowFadeIn transition"
+              className="mt-6 bg-gray-600 px-5 py-2 rounded hover:bg-gray-700 opacity-0 animate-slowFadeIn transition cursor-pointer"
             >
               Prove I'm Alone
             </button>

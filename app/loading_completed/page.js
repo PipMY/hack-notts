@@ -58,7 +58,7 @@ export default function Loading() {
   }, [showMessage]);
 
   const handleContinue = () => {
-    console.log("Continuing...");
+  window.location.href = "/castle";
   };
 
   return (
@@ -87,7 +87,7 @@ export default function Loading() {
           {typingDone && (
             <button
               onClick={handleContinue}
-              className="mt-6 bg-gray-600 px-5 py-2 rounded hover:bg-gray-700 opacity-0 animate-slowFadeIn transition"
+              className="mt-6 bg-gray-600 px-5 py-2 rounded hover:bg-gray-700 opacity-0 animate-slowFadeIn transition cursor-pointer"
             >
               Continue
             </button>
